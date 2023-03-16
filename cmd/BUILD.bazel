@@ -43,5 +43,14 @@ go_library(
 go_binary(
     name = "cmd",
     embed = [":cmd_lib"],
+    gc_linkopts = select({
+        "@platforms//os:linux": [
+            "-linkmode",
+            "external",
+            "-extldflags",
+            "-static",
+        ],
+        "//conditions:default": [],
+    }),
     visibility = ["//visibility:public"],
 )
